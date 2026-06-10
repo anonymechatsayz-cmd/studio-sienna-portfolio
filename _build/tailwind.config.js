@@ -1,1 +1,1 @@
-module.exports = { content: ["./Portfolio.html"], theme: { extend: {} }, plugins: [] };
+module.exports = { content: ["./Portfolio.html", "./contact-src.html"], theme: { extend: {} }, plugins: [] };

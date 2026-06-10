@@ -1,4 +1,5 @@
-# Déployer uniquement index.html + images/ — pas la source ni le pipeline
+# Déployer uniquement index.html + contact.html + images/ — pas les sources ni le pipeline
 Portfolio.html
+contact-src.html
 README.md
 _build/
