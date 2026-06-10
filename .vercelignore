@@ -1,0 +1,4 @@
+# Déployer uniquement index.html + images/ — pas la source ni le pipeline
+Portfolio.html
+README.md
+_build/
