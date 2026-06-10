@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Studio Sienna — Portfolio</title>
+<meta name="description" content="Studio Sienna — studio de webdesign pour PME et indépendants. Des sites pensés pour le résultat : vitrines, pages de vente et prise de rendez-vous." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23cf5e3b'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root {
+    /* ===== PALETTE (v2 system) ===== */
+    --milk:         oklch(0.98 0.006 85);
+    --milk-2:       oklch(0.96 0.010 85);
+    --ivory:        oklch(0.94 0.012 85);
+    --ink:          oklch(0.20 0.025 260);
+    --ink-80:       oklch(0.20 0.025 260 / 0.85);
+    --ink-60:       oklch(0.20 0.025 260 / 0.6);
+    --ink-40:       oklch(0.20 0.025 260 / 0.4);
+    --ink-15:       oklch(0.20 0.025 260 / 0.15);
+    --ink-08:       oklch(0.20 0.025 260 / 0.08);
+    --rule:         oklch(0.20 0.025 260 / 0.12);
+
+    --terra:        oklch(0.64 0.18 38);
+    --terra-2:      oklch(0.71 0.15 40);
+    --terra-soft:   oklch(0.92 0.05 50);
+    --terra-deep:   oklch(0.52 0.17 35);
+
+    --forest:       oklch(0.52 0.11 160);
+    --forest-soft:  oklch(0.94 0.04 160);
+  }
+
+  html, body {
+    background: var(--milk);
+    color: var(--ink);
+    font-family: "Inter Tight", system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  /* accent emphasis — clean, color-only (no decorative serif) */
+  .display-italic { font-style: normal; font-weight: 600; letter-spacing: -0.01em; }
+
+  /* Subtle paper noise */
+  .grain::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle at 1px 1px, var(--ink-08) 0.6px, transparent 0);
+    background-size: 3px 3px;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+  }
+
+  .warm-wash {
+    background:
+      radial-gradient(80% 60% at 90% -10%, var(--terra-soft) 0%, transparent 50%),
+      radial-gradient(50% 50% at 0% 0%, var(--forest-soft) 0%, transparent 55%),
+      var(--milk);
+  }
+
+  /* CTA — mouse-follow radial */
+  .cta {
+    --mx: 50%; --my: 50%;
+    background: var(--ink);
+    color: var(--milk);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 200ms cubic-bezier(.2,.8,.2,1), box-shadow 250ms ease;
+    box-shadow: 0 1px 0 0 oklch(1 0 0 / 0.1) inset, 0 10px 30px -12px oklch(0.20 0.025 260 / 0.4);
+  }
+  .cta::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(180px 180px at var(--mx) var(--my), var(--terra) 0%, transparent 60%);
+    opacity: 0; transition: opacity 300ms ease;
+  }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 1px 0 0 oklch(1 0 0 / 0.1) inset, 0 18px 44px -12px oklch(0.20 0.025 260 / 0.5); }
+  .cta:hover::before { opacity: 1; }
+  .cta:active { transform: translateY(0); }
+
+  .btn-ghost {
+    background: var(--milk);
+    border: 1px solid var(--ink-15);
+    color: var(--ink);
+    transition: background 180ms ease, border-color 180ms ease, transform 200ms ease;
+  }
+  .btn-ghost:hover { background: white; border-color: var(--ink-40); transform: translateY(-1px); }
+
+  .live {
+    width: 8px; height: 8px; border-radius: 9999px; background: var(--forest);
+    box-shadow: 0 0 0 0 var(--forest); animation: pulse 2.4s ease-out infinite;
+    display: inline-block;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 oklch(0.52 0.11 160 / 0.45); }
+    80%, 100% { box-shadow: 0 0 0 10px oklch(0.52 0.11 160 / 0); }
+  }
+
+  .ring-badge {
+    background: white;
+    border: 1px solid var(--ink-15);
+    border-radius: 999px;
+    padding: 4px 10px 4px 4px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px;
+  }
+  .ring-badge .dot-wrap {
+    width: 24px; height: 24px; border-radius: 999px;
+    background: var(--forest-soft);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-60);
+    white-space: nowrap;
+  }
+
+  /* ===== PROJECT CARD ===== */
+  .project-card {
+    position: relative;
+    border-radius: 22px;
+    border: 1px solid var(--ink-08);
+    background: white;
+    overflow: hidden;
+    transition: transform 320ms cubic-bezier(.2,.8,.2,1), box-shadow 320ms ease, border-color 320ms ease;
+    box-shadow: 0 1px 2px oklch(0.20 0.025 260 / 0.03);
+    display: flex; flex-direction: column;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--ink-15);
+    box-shadow:
+      0 2px 4px oklch(0.20 0.025 260 / 0.04),
+      0 30px 70px -28px oklch(0.20 0.025 260 / 0.28);
+  }
+
+  /* Browser shot region */
+  .shot {
+    margin: 14px 14px 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--ink-08);
+    background: white;
+    box-shadow: 0 12px 30px -18px oklch(0.20 0.025 260 / 0.3);
+  }
+  .shot-bar {
+    background: var(--milk-2);
+    border-bottom: 1px solid var(--ink-08);
+    padding: 8px 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .shot-dot { width: 9px; height: 9px; border-radius: 999px; background: oklch(0.20 0.025 260 / 0.18); }
+  .shot-url {
+    flex: 1; text-align: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px; color: var(--ink-60);
+  }
+  /* Real screenshot — full page, reveals on hover */
+  .live-shot {
+    aspect-ratio: 16 / 10;
+    position: relative;
+    background-color: var(--milk-2);
+    background-size: 100% auto;
+    background-position: top center;
+    background-repeat: no-repeat;
+    transition: background-position 4s cubic-bezier(.33,0,.2,1);
+  }
+  .project-card:hover .live-shot { background-position: bottom center; }
+  /* soft top gradient so the url bar reads cleanly */
+  .live-shot::before {
+    content: "";
+    position: absolute; inset: 0;
+    box-shadow: inset 0 0 0 1px oklch(0.20 0.025 260 / 0.04);
+    pointer-events: none;
+  }
+  /* "scroll to explore" hint */
+  .scroll-hint {
+    position: absolute; bottom: 10px; right: 10px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: oklch(0.20 0.025 260 / 0.78);
+    color: var(--milk);
+    backdrop-filter: blur(6px);
+    border-radius: 999px;
+    padding: 4px 9px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    opacity: 0; transform: translateY(4px);
+    transition: opacity 250ms ease, transform 250ms ease;
+  }
+  .project-card:hover .scroll-hint { opacity: 1; transform: translateY(0); }
+
+  /* result chip */
+  .result-chip {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--forest-soft);
+    color: var(--forest);
+    border-radius: 999px;
+    padding: 5px 12px 5px 9px;
+    font-size: 12.5px; font-weight: 600;
+    white-space: nowrap;
+  }
+  .result-chip svg { flex-shrink: 0; }
+  .result-chip svg { width: 14px; height: 14px; }
+
+  /* category filter buttons */
+  .filter-btn {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--ink-15);
+    background: transparent;
+    color: var(--ink-60);
+    cursor: pointer;
+    transition: all 180ms ease;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--ink-40); color: var(--ink); }
+  .filter-btn[aria-pressed="true"] {
+    background: var(--ink); color: var(--milk); border-color: var(--ink);
+  }
+
+  /* arrow link */
+  .arrow-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13.5px; font-weight: 600;
+    transition: gap 180ms ease;
+  }
+  .arrow-link:hover { gap: 10px; }
+
+  /* fade for filtering */
+  .project-card.is-hidden { display: none; }
+  @keyframes card-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .project-card.is-show { animation: card-in 0.5s cubic-bezier(.2,.8,.2,1) both; }
+
+  @keyframes lift-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .lift { opacity: 0; animation: lift-in 0.85s cubic-bezier(.2,.8,.2,1) forwards; }
+  .lift-1 { animation-delay: 0.05s; }
+  .lift-2 { animation-delay: 0.15s; }
+  .lift-3 { animation-delay: 0.25s; }
+  .lift-4 { animation-delay: 0.35s; }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--ink-15); border-radius: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  a { color: inherit; }
+
+  /* ===== FINITION ===== */
+  html { scroll-behavior: smooth; }
+  #portfolio, #contact { scroll-margin-top: 24px; }
+  h1, h2 { text-wrap: balance; }
+  ::selection { background: var(--terra); color: var(--milk); }
+  :focus:not(:focus-visible) { outline: none; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--terra);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .project-card:hover .live-shot { background-position: center top; }
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- ==================================================================
+     NAV — minimal
+================================================================== -->
+<header class="relative z-30">
+  <div class="max-w-[1360px] mx-auto px-6 md:px-10 pt-7 pb-7 flex items-center justify-between">
+    <a href="#portfolio" class="flex items-center gap-2.5">
+      <span class="inline-block w-2 h-2 rounded-full" style="background: var(--terra)"></span>
+      <span class="text-[15px] font-semibold tracking-[-0.01em]" style="white-space: nowrap">Studio Sienna</span>
+    </a>
+    <a href="#contact" class="cta inline-flex items-center gap-2 rounded-full px-4 py-2 text-[13px] font-semibold" style="white-space: nowrap; flex-shrink: 0">
+      Démarrer un projet
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </a>
+  </div>
+</header>
+
+<!-- ==================================================================
+     PORTFOLIO HEADER — editorial
+================================================================== -->
+<section id="portfolio" class="relative overflow-hidden">
+  <!-- whisper warm wash, top-right corner only -->
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(38% 62% at 100% -5%, var(--terra-soft) 0%, transparent 62%); opacity: .55"></div>
+
+  <!-- divider under nav -->
+  <div class="relative max-w-[1360px] mx-auto px-6 md:px-10">
+    <div class="border-t" style="border-color: var(--ink-08)"></div>
+  </div>
+
+  <div class="relative max-w-[1360px] mx-auto px-6 md:px-10 pt-12 md:pt-16 pb-12">
+
+    <!-- top meta row -->
+    <div class="lift lift-1 flex items-center justify-between gap-4 mb-9 md:mb-12">
+      <div class="tag" style="color: var(--ink-40)">Portfolio · Sélection 2024–2026</div>
+      <div class="hidden md:flex items-center gap-2.5">
+        <span class="live"></span>
+        <span class="tag" style="color: var(--ink-60)">Disponible — 2 créneaux Q3</span>
+      </div>
+    </div>
+
+    <!-- headline + right intro -->
+    <div class="grid grid-cols-12 gap-6 md:gap-10 items-end">
+      <div class="col-span-12 lg:col-span-8">
+        <h1 class="lift lift-2 font-medium tracking-[-0.045em] leading-[0.96]" style="font-size: clamp(46px, 7vw, 104px)">
+          Des sites qui <span class="display-italic" style="color: var(--terra-deep)">travaillent</span> pour eux.
+        </h1>
+      </div>
+      <div class="col-span-12 lg:col-span-4 lg:pb-2">
+        <p class="lift lift-3 text-[16px] md:text-[17px] leading-[1.6] max-w-[42ch]" style="color: var(--ink-60)">
+          Studio de webdesign pour PME &amp; indépendants. Chaque projet part d'un objectif concret —
+          <span style="color: var(--ink)">le design suit le résultat, jamais l'inverse.</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- filters bar -->
+    <div class="lift lift-4 mt-12 md:mt-16 pt-6 border-t flex flex-wrap items-center justify-between gap-4" style="border-color: var(--ink-08)">
+      <div class="flex flex-wrap items-center gap-2.5" id="filters">
+        <button class="filter-btn" data-filter="all" aria-pressed="true">Tous</button>
+        <button class="filter-btn" data-filter="vente" aria-pressed="false">Page de vente</button>
+        <button class="filter-btn" data-filter="restauration" aria-pressed="false">Restauration</button>
+        <button class="filter-btn" data-filter="service" aria-pressed="false">Service local</button>
+        <button class="filter-btn" data-filter="artisan" aria-pressed="false">Artisan</button>
+      </div>
+      <div class="tag" style="color: var(--ink-40)" id="result-count">04 projets</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     PROJECT GRID
+================================================================== -->
+<section class="relative" style="background: var(--milk)">
+  <div class="max-w-[1360px] mx-auto px-6 md:px-10 pt-10 pb-24">
+
+    <div class="grid md:grid-cols-2 gap-6 md:gap-8" id="grid">
+
+      <!-- ===== PROJECT 01 — Maths Ultime ===== -->
+      <article class="project-card is-show" data-cat="vente">
+        <div class="shot">
+          <div class="shot-bar">
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-url">maths-ultime.fr</span>
+            <span style="width: 40px"></span>
+          </div>
+          <div class="live-shot" style="background-image: url('images/maths-ultime.webp')">
+            <span class="scroll-hint">Survol → défile</span>
+          </div>
+        </div>
+        <div class="p-6 md:p-7 flex flex-col flex-1">
+          <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-3">
+            <span class="tag">01 / 04 — Page de vente</span>
+            <span class="result-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Tunnel de conversion complet
+            </span>
+          </div>
+          <h3 class="text-[24px] font-semibold tracking-[-0.02em] mb-2">Maths Ultime</h3>
+          <p class="text-[14.5px] leading-[1.6] mb-6" style="color: var(--ink-60)">
+            Page de vente immersive pour une formation de maths au lycée. Univers illustré sur-mesure (mythologie grecque), offre, preuves sociales et FAQ pensés pour convertir.
+          </p>
+          <div class="mt-auto flex items-center justify-between pt-4 border-t" style="border-color: var(--ink-08)">
+            <a href="#" class="arrow-link" style="color: var(--terra-deep)">
+              Étude de cas
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="https://www.maths-ultime.fr/" target="_blank" rel="noopener" class="arrow-link" style="color: var(--ink-60)">
+              Voir le site
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===== PROJECT 02 — Jardin d'Italie ===== -->
+      <article class="project-card is-show" data-cat="restauration">
+        <div class="shot">
+          <div class="shot-bar">
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-url">jardinditalie.fr</span>
+            <span style="width: 40px"></span>
+          </div>
+          <div class="live-shot" style="background-image: url('images/jardin-ditalie.webp')">
+            <span class="scroll-hint">Survol → défile</span>
+          </div>
+        </div>
+        <div class="p-6 md:p-7 flex flex-col flex-1">
+          <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-3">
+            <span class="tag">02 / 04 — Restauration</span>
+            <span class="result-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Réservation en ligne
+            </span>
+          </div>
+          <h3 class="text-[24px] font-semibold tracking-[-0.02em] mb-2">Le Jardin d'Italie</h3>
+          <p class="text-[14.5px] leading-[1.6] mb-6" style="color: var(--ink-60)">
+            Site élégant pour un restaurant italien à Massy. Mise en valeur du menu et du chef, photographie soignée et réservation de table directe.
+          </p>
+          <div class="mt-auto flex items-center justify-between pt-4 border-t" style="border-color: var(--ink-08)">
+            <a href="#" class="arrow-link" style="color: var(--terra-deep)">
+              Étude de cas
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="https://jardinditalie.vercel.app/" target="_blank" rel="noopener" class="arrow-link" style="color: var(--ink-60)">
+              Voir le site
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===== PROJECT 03 — La Toiletterie ===== -->
+      <article class="project-card is-show" data-cat="service">
+        <div class="shot">
+          <div class="shot-bar">
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-url">latoiletterie.fr</span>
+            <span style="width: 40px"></span>
+          </div>
+          <div class="live-shot" style="background-image: url('images/la-toiletterie.webp')">
+            <span class="scroll-hint">Survol → défile</span>
+          </div>
+        </div>
+        <div class="p-6 md:p-7 flex flex-col flex-1">
+          <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-3">
+            <span class="tag">03 / 04 — Service local</span>
+            <span class="result-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Prise de RDV intégrée
+            </span>
+          </div>
+          <h3 class="text-[24px] font-semibold tracking-[-0.02em] mb-2">La Toiletterie</h3>
+          <p class="text-[14.5px] leading-[1.6] mb-6" style="color: var(--ink-60)">
+            Salon de toilettage canin. Site chaleureux orienté prise de rendez-vous, avec estimateur de budget et présentation détaillée des soins.
+          </p>
+          <div class="mt-auto flex items-center justify-between pt-4 border-t" style="border-color: var(--ink-08)">
+            <a href="#" class="arrow-link" style="color: var(--terra-deep)">
+              Étude de cas
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="https://latoiletterie.vercel.app/index.html" target="_blank" rel="noopener" class="arrow-link" style="color: var(--ink-60)">
+              Voir le site
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===== PROJECT 04 — Au Temps du Froment ===== -->
+      <article class="project-card is-show" data-cat="artisan">
+        <div class="shot">
+          <div class="shot-bar">
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-dot"></span>
+            <span class="shot-url">autempsdufroment.fr</span>
+            <span style="width: 40px"></span>
+          </div>
+          <div class="live-shot" style="background-image: url('images/au-temps-du-froment.webp')">
+            <span class="scroll-hint">Survol → défile</span>
+          </div>
+        </div>
+        <div class="p-6 md:p-7 flex flex-col flex-1">
+          <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-3">
+            <span class="tag">04 / 04 — Artisan</span>
+            <span class="result-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              Vitrine + galerie produits
+            </span>
+          </div>
+          <h3 class="text-[24px] font-semibold tracking-[-0.02em] mb-2">Au Temps du Froment</h3>
+          <p class="text-[14.5px] leading-[1.6] mb-6" style="color: var(--ink-60)">
+            Boulangerie artisanale à Saulx-les-Chartreux. Vitrine gourmande : produits, galerie et formulaire de contact pour les commandes spécifiques.
+          </p>
+          <div class="mt-auto flex items-center justify-between pt-4 border-t" style="border-color: var(--ink-08)">
+            <a href="#" class="arrow-link" style="color: var(--terra-deep)">
+              Étude de cas
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="https://autempsdufroment.vercel.app/" target="_blank" rel="noopener" class="arrow-link" style="color: var(--ink-60)">
+              Voir le site
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- empty state -->
+    <div id="empty" class="hidden text-center py-24">
+      <p class="display-italic text-[28px]" style="color: var(--ink-40)">Aucun projet dans cette catégorie… pour l'instant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================================================================
+     CTA — light, épuré
+================================================================== -->
+<section id="contact" class="relative border-t" style="border-color: var(--ink-08); background: var(--milk)">
+  <div class="max-w-[1360px] mx-auto px-6 md:px-10 py-24 md:py-32 text-center flex flex-col items-center">
+    <div class="tag mb-6" style="color: var(--ink-40)">Votre projet, le prochain</div>
+    <h2 class="font-medium tracking-[-0.035em] leading-[1.04]" style="font-size: clamp(34px, 4.6vw, 60px)">
+      On en fait un <span class="display-italic" style="color: var(--terra-deep)">résultat concret&#8239;?</span>
+    </h2>
+    <p class="mt-5 text-[17px] max-w-[46ch]" style="color: var(--ink-60)">
+      Devis gratuit en 24h. On parle de votre objectif, pas de jargon technique.
+    </p>
+    <a href="#" class="cta mt-9 inline-flex items-center gap-2.5 rounded-full px-7 py-4 text-[15px] font-semibold">
+      Réserver un appel
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ==================================================================
+     FOOTER — minimal
+================================================================== -->
+<footer class="border-t" style="border-color: var(--ink-08); background: var(--milk)">
+  <div class="max-w-[1360px] mx-auto px-6 md:px-10 py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div class="flex items-center gap-2.5">
+      <span class="inline-block w-2 h-2 rounded-full" style="background: var(--terra)"></span>
+      <span class="text-[15px] font-semibold">Studio Sienna</span>
+      <span class="tag ml-2" style="color: var(--ink-40)">STUDIO DE WEBDESIGN · PARIS, FR</span>
+    </div>
+    <div class="flex items-center gap-7 text-[13.5px] font-medium" style="color: var(--ink-60)">
+      <a href="#portfolio" class="hover:text-[color:var(--ink)] transition-colors">Portfolio</a>
+      <a href="#contact" class="hover:text-[color:var(--ink)] transition-colors">Contact</a>
+      <span class="tag" style="color: var(--ink-40)">© 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mouse-follow radial on CTAs
+  document.querySelectorAll('.cta').forEach(btn => {
+    btn.addEventListener('pointermove', e => {
+      const r = btn.getBoundingClientRect();
+      btn.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      btn.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Category filtering
+  const filters = document.querySelectorAll('.filter-btn');
+  const cards = Array.from(document.querySelectorAll('.project-card'));
+  const empty = document.getElementById('empty');
+  const resultCount = document.getElementById('result-count');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      const f = btn.dataset.filter;
+      let visible = 0;
+      cards.forEach(card => {
+        const match = (f === 'all' || card.dataset.cat === f);
+        card.classList.remove('is-show');
+        if (match) {
+          card.classList.remove('is-hidden');
+          // retrigger entry animation
+          void card.offsetWidth;
+          card.classList.add('is-show');
+          visible++;
+        } else {
+          card.classList.add('is-hidden');
+        }
+      });
+      empty.classList.toggle('hidden', visible > 0);
+      if (resultCount) {
+        resultCount.textContent = visible + (visible > 1 ? ' projets' : ' projet');
+      }
+    });
+  });
+</script>
+</body>
+</html>

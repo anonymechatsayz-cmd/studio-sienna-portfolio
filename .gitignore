@@ -1,0 +1,22 @@
+# Artefacts du bundle de design (volumineux, inutiles au site)
+design_bundle.raw
+design_bundle.tar
+design_extract/
+
+# Anciens téléchargements volumineux
+Studio Sienna Portfolio.htm
+Studio Sienna — Portfolio_files/
+
+# Livrable hors-ligne régénérable (3 Mo) — pas nécessaire dans le repo
+Portfolio-autonome.html
+
+# Masters d'images haute résolution — on déploie les .webp optimisées
+images/*.png
+
+# Local / outils
+.claude/
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
